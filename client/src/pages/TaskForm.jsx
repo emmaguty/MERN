@@ -1,7 +1,10 @@
 import { Form, Formik } from 'formik'
-import { createTaskRequest } from '../api/task.api'
+import { useTasks } from '../context/TaskContext'
 
-function TaskForm () {
+function TaskForm() {
+
+    const { createTask } = useTasks()
+
     return (
         <div>
             <Formik
@@ -11,24 +14,19 @@ function TaskForm () {
                 }}
                 onSubmit={async (values, actions) => {
                     console.log(values)
-                    try {
-                        const response = await createTaskRequest(values)
-                        console.log(response)
-                        actions.resetForm()
-                    } catch (error) {
-                        console.error(error)
-                    }
+                    createTask(values)
+                    actions.resetForm()
                 }}
             >
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
                         <label>Title</label>
-                        <input 
-                        type="text" 
-                        name="title" 
-                        placeholder='Write a Title'
-                        value={values.title}
-                        onChange={handleChange} />
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder='Write a Title'
+                            value={values.title}
+                            onChange={handleChange} />
 
                         <label>Description</label>
                         <textarea

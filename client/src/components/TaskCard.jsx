@@ -3,8 +3,12 @@ import { useTasks } from "../context/TaskContext"
 
 const TaskCard = ({ task }) => {
 
-    const {deleteTask} = useTasks()
+    const {deleteTask, toggleTaskDone} = useTasks()
     const navigate = useNavigate()
+
+    const handleDone = async(taskDone) => {
+        await toggleTaskDone(task.id)
+    }
 
     return (
         <div>
@@ -17,6 +21,9 @@ const TaskCard = ({ task }) => {
             </button>
             <button onClick={() => navigate(`/edit/${task.id}`)}>
                 Edit
+            </button>
+            <button onClick={() => handleDone(task.done)}>
+                Toggle Task
             </button>
         </div>
     )

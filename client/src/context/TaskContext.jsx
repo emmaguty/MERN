@@ -1,9 +1,12 @@
 import { createContext, useContext, useState } from "react";
-import { createTaskRequest, 
-         deleteTaskRequest, 
-         getTaskRequest, 
-         getTasksRequest,
-         updateTaskRequest } from "../api/task.api"
+import {
+    createTaskRequest,
+    deleteTaskRequest,
+    getTaskRequest,
+    getTasksRequest,
+    updateTaskRequest,
+    toggleTaskRequest
+} from "../api/task.api"
 
 export const TaskContext = createContext();
 
@@ -27,7 +30,7 @@ export const TaskContextProvider = ({ children }) => {
     const deleteTask = async (id) => {
         try {
             const response = await deleteTaskRequest(id)
-            setTasks(tasks.filter(task => task.id !== id ))
+            setTasks(tasks.filter(task => task.id !== id))
         } catch (error) {
             console.error(error)
         }
@@ -36,7 +39,7 @@ export const TaskContextProvider = ({ children }) => {
     const createTask = async (task) => {
         try {
             const response = await createTaskRequest(task)
-            
+
         } catch (error) {
             console.error(error)
         }
@@ -46,27 +49,41 @@ export const TaskContextProvider = ({ children }) => {
         try {
             const response = await getTaskRequest(id)
             return response.data
-        } catch (error) {   
+        } catch (error) {
             console.error(error)
         }
     }
 
     const updateTask = async (id, newFields) => {
         try {
-            const response = await updateTaskRequest (id, newFields)
+            const response = await updateTaskRequest(id, newFields)
             console.log(response)
         } catch (error) {
-           console.error(error) 
+            console.error(error)
+        }
+    }
+
+    const toggleTaskDone = async (id) => {
+        try {
+            const taskFound = tasks.find((task) => task.id === id);
+            await toggleTaskRequest(id, taskFound.done === 0 ? true : false);
+            setTasks(tasks.map((task) => (task.id === id ? task.done = task.done === 0 ? 1 : 0 : task.done)))
+            setTasks([...tasks])
+        } catch (error) {
+            console.error(error);
         }
     }
 
     return (
-        <TaskContext.Provider value={{ tasks, 
-                                       loadTasks, 
-                                       deleteTask, 
-                                       createTask,
-                                       getTask,
-                                       updateTask }}>
+        <TaskContext.Provider value={{
+            tasks,
+            loadTasks,
+            deleteTask,
+            createTask,
+            getTask,
+            updateTask,
+            toggleTaskDone
+        }}>
             {children}
         </TaskContext.Provider>
     )

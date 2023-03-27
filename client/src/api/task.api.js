@@ -1,7 +1,7 @@
 import axios from "axios"
 
 //Para cargar tareas
-export const getTaskRequest = async () => 
+export const getTasksRequest = async () => 
    await axios.get('http://localhost:3002/tasks');
 
 
@@ -12,3 +12,9 @@ export const createTaskRequest = async (task) =>
 // Para Eliminar
 export const deleteTaskRequest = async (id) =>
    await axios.delete(`http://localhost:3002/tasks/${id}`);
+
+export const getTaskRequest = async (id) =>
+   await axios.get(`http://localhost:3002/tasks/${id}`);
+
+export const updateTaskRequest = async (id, newFields) =>
+   await axios.put(`http://localhost:3002/tasks/${id}`, newFields)

@@ -31,7 +31,7 @@ function TaskForm() {
     return (
         <div>
 
-            <h1>
+            <h1 className='text-xl font-bold text-white uppercase text center text-center py-2'>
                 {
                     params.id ? "Edit Task" : "Create Task"
                 }
@@ -58,17 +58,21 @@ function TaskForm() {
                 }}
             >
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
-                    <Form onSubmit={handleSubmit}>
-                        <label>Title</label>
+                    <Form 
+                    className='bg-slate-400 max-w-md rounded-md p-3 mx-auto'
+                    onSubmit={handleSubmit}>
+                        <label className='block'>Title</label>
                         <input
+                            className='px-2 py-1 rounded-sm w-full'
                             type="text"
                             name="title"
                             placeholder='Write a Title'
                             value={values.title}
                             onChange={handleChange} />
 
-                        <label>Description</label>
+                        <label className='block'>Description</label>
                         <textarea
+                            className='w-full px-2 py-1 rounded-sm'
                             name="description"
                             rows="3"
                             placeholder='Write a description'
@@ -76,7 +80,10 @@ function TaskForm() {
                             onChange={handleChange}
                         ></textarea>
 
-                        <button type="submit" disabled={isSubmitting}>
+                        <button 
+                        className='block bg-indigo-500 px-2 py-1 text-white w-full rounded-md'
+                        type="submit" 
+                        disabled={isSubmitting}>
                             {isSubmitting ? "Saving..." : "Save"}
                         </button>
                     </Form>
